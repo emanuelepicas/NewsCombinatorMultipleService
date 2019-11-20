@@ -1,0 +1,42 @@
+<xs:schema version="2.2" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:tns="http://www.newscombinator.com/sample"
+           targetNamespace="http://www.newscombinator.com/sample" elementFormDefault="qualified"
+           xmlns:jxb="http://java.sun.com/xml/ns/jaxb">
+
+
+    <xs:element name="getNews">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="source" type="tns:NewsType"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getNewsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" minOccurs="0" name="news" nillable="true" type="tns:news"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- News abstract class -->
+    <xs:complexType name="news">
+        <xs:sequence>
+            <xs:element name="url" type="xs:string"/>
+            <xs:element name="time" type="xs:string"/>
+            <xs:element name="title" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <!--NewsType Enumeration Class -->
+    <xs:simpleType name="NewsType" final="restriction">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="hackerNews"/>
+            <xs:enumeration value="nyTimesNews"/>
+            <xs:enumeration value="all"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+</xs:schema>
