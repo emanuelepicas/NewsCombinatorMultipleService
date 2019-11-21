@@ -3,6 +3,7 @@ package com.sourcesense.emanuelepicariello.demo.mapper;
 import com.sourcesense.emanuelepicariello.demo.dto.NewsDto;
 import com.sourcesense.emanuelepicariello.demo.model.HackerNews;
 import com.sourcesense.emanuelepicariello.demo.model.NyTimesArticle;
+import com.soursesense.emanuelepicariello.newscombinatorsoap.news.News;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -16,15 +17,10 @@ public interface NewsMapperSoap {
 
         @Mappings({
                 @Mapping(source = "title", target = "title"),
-                @Mapping(source = "data", target = "time",
+                @Mapping(source = "time", target = "time",
                         dateFormat = "dd-MM-yyyy HH:mm:ss")})
-        NewsDto hackerNewsEntityToNews(HackerNews hackerNews);
+        News hackerNewsorNyTimesArticleToNews(NewsDto hackerNews);
 
-        @Mappings({
-                @Mapping(target = "title", source = "title"),
-                @Mapping(target = "time", source = "data",
-                        dateFormat = "dd-MM-yyyy HH:mm:ss")})
-        NewsDto nyTimesArticleEntityToNews(NyTimesArticle nyTimes);
 
 
 }

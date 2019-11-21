@@ -1,7 +1,7 @@
 package com.sourcesense.emanuelepicariello.demo.controller;
 
 
-import com.sourcesense.emanuelepicariello.demo.service.AggregatorNewsService;
+import com.sourcesense.emanuelepicariello.demo.service.NewsService;
 import com.sourcesense.emanuelepicariello.demo.service.GraphQLService;
 import com.sourcesense.emanuelepicariello.demo.service.HackerNewsService;
 import com.sourcesense.emanuelepicariello.demo.service.NyTimesService;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class NewsGraphQlController {
 
     @Autowired
-    AggregatorNewsService newsService;
+    NewsService newsService;
 
     @Autowired
     HackerNewsService hackNewsService;

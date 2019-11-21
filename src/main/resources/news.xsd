@@ -19,7 +19,7 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-    <!-- News abstract class -->
+    <!-- News  class -->
     <xs:complexType name="news">
         <xs:sequence>
             <xs:element name="url" type="xs:string"/>

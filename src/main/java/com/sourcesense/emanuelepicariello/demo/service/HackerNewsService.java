@@ -3,7 +3,10 @@ package com.sourcesense.emanuelepicariello.demo.service;
 
 import com.sourcesense.emanuelepicariello.demo.dto.NewsDto;
 import com.sourcesense.emanuelepicariello.demo.mapper.NewsMapper;
+import com.sourcesense.emanuelepicariello.demo.mapper.NewsMapperSoap;
 import com.sourcesense.emanuelepicariello.demo.model.HackerNews;
+import com.soursesense.emanuelepicariello.newscombinatorsoap.news.GetNewsResponse;
+import com.soursesense.emanuelepicariello.newscombinatorsoap.news.News;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -29,11 +33,6 @@ public class HackerNewsService implements NewsServiceInteface {
     @Value("${allIdUrlOfHackerNews}")
     private String hackerNews;
 
-    @Value("${localHost}")
-    private String localHost;
-
-    @Value("${idHackerNews}")
-    private String idHackerNews;
 
 
     @Override
@@ -77,5 +76,30 @@ public class HackerNewsService implements NewsServiceInteface {
         return allHackerNewsList;
     }
 
+    public List<News> mappingList() throws ExecutionException, InterruptedException {
+        List<News> hackerNewsList;
+        List<NewsDto> hackerNewsEntityList = printNews();
+        hackerNewsList = hackerNewsEntityList.parallelStream().map(p ->
+                (NewsMapperSoap.INSTANCE.hackerNewsorNyTimesArticleToNews(p))).collect(Collectors.toList());
+
+
+        return new ArrayList<>(hackerNewsList);
+    }
+
+
+    public List<News> getHackerNews() throws ExecutionException, InterruptedException {
+        List<News> mappingList = mappingList();
+        if (mappingList != null)
+            return mappingList;
+        return new ArrayList<>();
+    }
+
+    //Soap Response
+    public GetNewsResponse getHackerNewsResponse() throws ExecutionException, InterruptedException {
+        GetNewsResponse response = new GetNewsResponse();
+        response.getNews().addAll(getHackerNews());
+        return response;
+
+    }
 
 }

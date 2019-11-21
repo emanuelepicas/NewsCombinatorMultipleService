@@ -19,8 +19,7 @@ public interface NewsMapper {
             @Mapping(source = "time", target = "time",
                     dateFormat = "dd-MM-yyyy HH:mm:ss"),
             @Mapping(source = "source", target = "source"),
-            @Mapping(source = "url", target = "url"),
-            @Mapping(source = "id", target = "id")})
+            @Mapping(source = "url", target = "url")})
     NewsDto hackerNewsEntityToNews(HackerNews hackerNews);
 
 
@@ -29,8 +28,7 @@ public interface NewsMapper {
             @Mapping(source = "data", target = "time",
                     dateFormat = "dd-MM-yyyy HH:mm:ss"),
             @Mapping(source = "source", target = "source"),
-            @Mapping(source = "url", target = "url"),
-            @Mapping(source = "data", target = "id"),})
+            @Mapping(source = "url", target = "url")})
     NewsDto nyTimesEntityToNews(NyTimesArticle nyTimesArticle);
 
 

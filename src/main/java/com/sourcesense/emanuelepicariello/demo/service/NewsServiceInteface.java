@@ -1,7 +1,6 @@
 package com.sourcesense.emanuelepicariello.demo.service;
 
 import com.sourcesense.emanuelepicariello.demo.dto.NewsDto;
-import com.sourcesense.emanuelepicariello.graphqlnewscombinator.model.NewsInterface;
 
 import java.io.IOException;
 import java.util.List;

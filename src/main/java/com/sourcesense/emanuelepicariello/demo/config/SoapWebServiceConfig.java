@@ -21,7 +21,7 @@ public class SoapWebServiceConfig extends WsConfigurerAdapter {
         MessageDispatcherServlet servlet = new MessageDispatcherServlet();
         servlet.setApplicationContext(context);
         servlet.setTransformWsdlLocations(true);
-        return new ServletRegistrationBean(servlet, "/news/*");
+        return new ServletRegistrationBean(servlet, "/newsSoap");
     }
 
     @Bean

@@ -2,7 +2,7 @@ package com.sourcesense.emanuelepicariello.demo.dataFetcher;
 
 
 import com.sourcesense.emanuelepicariello.demo.dto.NewsDto;
-import com.sourcesense.emanuelepicariello.demo.service.AggregatorNewsService;
+import com.sourcesense.emanuelepicariello.demo.service.NewsService;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +17,13 @@ import java.util.concurrent.ExecutionException;
 public class AllNewsDataFetcher implements DataFetcher<List<NewsDto>> {
 
  @Autowired
-    AggregatorNewsService aggregatorNewsService;
+ NewsService newsService;
 
         @Override
     public List<NewsDto> get(DataFetchingEnvironment dataFetchingEnvironment) {
 
             try {
-                return aggregatorNewsService.allArticles();
+                return newsService.allArticles();
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {

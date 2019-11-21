@@ -1,0 +1,15 @@
+schema{
+    query: Query
+}
+
+type Query{
+    getAllNews : [NewsDto]
+    getHackerNews(source: String) : [NewsDto]
+    getNyTimesNews(source: String) : [NewsDto]
+}
+
+type NewsDto{
+    title: String
+    source: String
+    url: String
+}
