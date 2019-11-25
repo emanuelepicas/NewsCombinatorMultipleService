@@ -9,6 +9,8 @@ import com.soursesense.emanuelepicariello.newscombinatorsoap.news.GetNewsRespons
 import com.soursesense.emanuelepicariello.newscombinatorsoap.news.News;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -21,7 +23,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 @Service
-public class HackerNewsService implements NewsServiceInteface {
+public class HackerNewsService implements NewsServiceInterface {
     private static final Logger logger = LoggerFactory.getLogger(HackerNewsService.class);
 
     @Value("${UrlofHakerNewsPart1}")
@@ -33,57 +35,57 @@ public class HackerNewsService implements NewsServiceInteface {
     @Value("${allIdUrlOfHackerNews}")
     private String hackerNews;
 
+    RestTemplate restTemplate;
 
+
+    @Autowired
+    public HackerNewsService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+
+    }
 
     @Override
-    public List<NewsDto> allArticles() throws IOException, InterruptedException, ExecutionException {
-        return  printNews();
+    public List<NewsDto> allArticles() throws InterruptedException, ExecutionException {
+        return printNews();
     }
 
     @SuppressWarnings("unchecked")
     public List<Integer> readAllId() {
 
-        RestTemplate restTemplate = new RestTemplate();
 
         return restTemplate.getForObject(hackerNews, List.class);
     }
 
     public List<NewsDto> printNews() throws InterruptedException, ExecutionException {
-        List<HackerNews> allHackerNews;
 
         logger.info("creation of hacker News List");
-        allHackerNews = allTheArticlesOfASource();
 
 
-        List<NewsDto> allNews = allHackerNews.parallelStream().map(p ->
-                (NewsMapper.INSTANCE.hackerNewsEntityToNews(p))).collect(Collectors.toList());
-        Collections.sort(allNews);
-
-        return allNews;
+        return allTheArticlesOfASource();
     }
 
-    public List<HackerNews> allTheArticlesOfASource() throws InterruptedException, ExecutionException {
+    public List<NewsDto> allTheArticlesOfASource() {
+
         List<Integer> list = readAllId();
-        List<HackerNews> allHackerNewsList;
 
-        RestTemplate restTemplate = new RestTemplate();
+        return list.parallelStream()
+                .map(this::getHackerNewsArticle)
+                .sorted()
+                .collect(Collectors.toList());
+    }
 
-
-        allHackerNewsList = list.parallelStream().map(p ->
-                (restTemplate.getForObject(hackerNewsUrlpart1 + p + hackerNewsUrlpart2,
-                        HackerNews.class))).collect(Collectors.toList());
-
-        return allHackerNewsList;
+    public NewsDto getHackerNewsArticle(Integer id){
+        HackerNews hackerNews = restTemplate.getForObject(hackerNewsUrlpart1 + id + hackerNewsUrlpart2, HackerNews.class);
+        return  NewsMapper.INSTANCE.hackerNewsEntityToNews(hackerNews);
     }
 
     public List<News> mappingList() throws ExecutionException, InterruptedException {
-        List<News> hackerNewsList;
-        List<NewsDto> hackerNewsEntityList = printNews();
-        hackerNewsList = hackerNewsEntityList.parallelStream().map(p ->
-                (NewsMapperSoap.INSTANCE.hackerNewsorNyTimesArticleToNews(p))).collect(Collectors.toList());
 
+        return printNews()
+                .parallelStream()
+                .map(NewsMapperSoap.INSTANCE::hackerNewsorNyTimesArticleToNews)
+                .collect(Collectors.toList());
 
-        return new ArrayList<>(hackerNewsList);
     }
 
 

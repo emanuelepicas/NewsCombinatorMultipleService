@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
-import java.util.concurrent.ExecutionException;
 
 @Service
 public class GraphQLService {
@@ -37,7 +36,7 @@ public class GraphQLService {
     private GraphQL graphQL;
 
     @Autowired
-    public GraphQLService( AllNewsDataFetcher allNewsDataFetcher,
+    public GraphQLService(AllNewsDataFetcher allNewsDataFetcher,
                           HackerNewsDataFetcher hackerNewsDataFetcher, NyTimesDataFetcher nyTimesDataFetcher) {
         this.allNewsDataFetcher = allNewsDataFetcher;
         this.hackerNewsDataFetcher = hackerNewsDataFetcher;
@@ -45,7 +44,7 @@ public class GraphQLService {
     }
 
     @PostConstruct
-    private void loadSchema() throws IOException, ExecutionException, InterruptedException {
+    private void loadSchema() throws IOException {
         logger.info("Entering loadSchema@GraphQLService");
         //Getting the graphql file
         File file = resource.getFile();

@@ -22,11 +22,8 @@ public class HackerNewsDataFetcher implements DataFetcher<List<NewsDto>> {
 
     @Override
     public List<NewsDto> get(DataFetchingEnvironment dataFetchingEnvironment) {
-        String source = dataFetchingEnvironment.getArgument("source");
         try {
             return hackerNewsService.allArticles();
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {

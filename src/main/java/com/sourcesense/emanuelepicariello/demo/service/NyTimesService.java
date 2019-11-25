@@ -22,8 +22,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 @Service
-public class NyTimesService implements NewsServiceInteface {
-    private static final Logger logger = LoggerFactory.getLogger(HackerNewsService.class);
+public class NyTimesService implements NewsServiceInterface {
+    private static final Logger logger = LoggerFactory.getLogger(NyTimesService.class);
 
     @Value("${nyTimesNews}")
     String nyTimesNews;
@@ -38,16 +38,12 @@ public class NyTimesService implements NewsServiceInteface {
 
     public List<NewsDto> printNews() {
         List<NyTimesArticle> allNyTimesArticles = new ArrayList<>();
-        NyTimesArticle[] allArticles = allTheArticlesOFNyTimes().getResults();
-        Collections.addAll(allNyTimesArticles, allArticles);
 
-        List<NewsDto> allNews = allNyTimesArticles.parallelStream().map(p ->
-                (NewsMapper.INSTANCE.nyTimesEntityToNews(p))).collect(Collectors.toList());
+        Collections.addAll(allNyTimesArticles, allTheArticlesOFNyTimes().getResults());
 
-        Collections.sort(allNews);
+        return allNyTimesArticles.parallelStream().map(NewsMapper.INSTANCE::nyTimesEntityToNews)
+                .sorted().collect(Collectors.toList());
 
-
-        return allNews;
     }
 
     public NyTimesArticleContainer allTheArticlesOFNyTimes() {
@@ -59,26 +55,25 @@ public class NyTimesService implements NewsServiceInteface {
 
     }
 
-    public List<News> mapping() throws ExecutionException, InterruptedException {
-        List<News> news;
+    public List<News> mapping() {
         List<NewsDto> newsEntities = printNews();
-        news = newsEntities.parallelStream().map(p ->
-                (NewsMapperSoap.INSTANCE.hackerNewsorNyTimesArticleToNews(p)))
+        return newsEntities.parallelStream().map(NewsMapperSoap.INSTANCE::hackerNewsorNyTimesArticleToNews)
                 .collect(Collectors.toList());
-        return news;
+
     }
 
 
-    public List<News> getAllArticleOfNyTimes() throws IOException, ExecutionException, InterruptedException {
+    public List<News> getAllArticleOfNyTimes() {
         logger.info("creation of NyTimes list");
-
-
         return mapping();
 
     }
 
-    //Soap Response
-    public GetNewsResponse getNyTimesResponse() throws ExecutionException, InterruptedException, IOException {
+
+    /**
+     * @return GetNewsResponse
+     */
+    public GetNewsResponse getNyTimesResponse()  {
         GetNewsResponse response = new GetNewsResponse();
         response.getNews().addAll(getAllArticleOfNyTimes());
         return response;

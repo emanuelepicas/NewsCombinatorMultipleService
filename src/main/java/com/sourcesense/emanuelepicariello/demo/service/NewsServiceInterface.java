@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public interface NewsServiceInteface {
+public interface NewsServiceInterface {
 	
-	public List<NewsDto> allArticles() throws IOException, InterruptedException, ExecutionException;
+	List<NewsDto> allArticles() throws IOException, InterruptedException, ExecutionException;
 
 }

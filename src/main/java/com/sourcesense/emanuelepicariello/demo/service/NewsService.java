@@ -8,14 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 @Service
-public class NewsService implements NewsServiceInteface {
+public class NewsService implements NewsServiceInterface {
 
     @Autowired
     NyTimesService nyTimesService;
@@ -40,10 +39,10 @@ public class NewsService implements NewsServiceInteface {
     }
 
     public List<News> mapAllTheArticle() throws ExecutionException, InterruptedException {
-        List<News> newsList = new ArrayList<>();
         List<News> aList;
-        aList = printNews().parallelStream().map(p -> (
-                NewsMapperSoap.INSTANCE.hackerNewsorNyTimesArticleToNews(p))).collect(Collectors.toList());
+        aList = printNews().parallelStream()
+                .map(NewsMapperSoap.INSTANCE::hackerNewsorNyTimesArticleToNews)
+                .collect(Collectors.toList());
         return aList;
 
     }
