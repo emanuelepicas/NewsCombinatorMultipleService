@@ -14,6 +14,7 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
+
 @Endpoint
 public class NewsControllerSoap {
 
@@ -36,9 +37,8 @@ public class NewsControllerSoap {
                 return this.hackerNewsService.getHackerNewsResponse();
             case NY_TIMES_NEWS:
                 return this.nytimesService.getNyTimesResponse();
-            case ALL: {
+            case ALL:
                 return this.newsService.getAllNewsResponse();
-            }
             default:
                 return null;
         }

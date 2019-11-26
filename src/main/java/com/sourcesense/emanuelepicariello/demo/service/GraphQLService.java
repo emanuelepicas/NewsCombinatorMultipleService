@@ -1,8 +1,8 @@
 package com.sourcesense.emanuelepicariello.demo.service;
 
-import com.sourcesense.emanuelepicariello.demo.dataFetcher.AllNewsDataFetcher;
-import com.sourcesense.emanuelepicariello.demo.dataFetcher.HackerNewsDataFetcher;
-import com.sourcesense.emanuelepicariello.demo.dataFetcher.NyTimesDataFetcher;
+import com.sourcesense.emanuelepicariello.demo.datafetcher.AllNewsDataFetcher;
+import com.sourcesense.emanuelepicariello.demo.datafetcher.HackerNewsDataFetcher;
+import com.sourcesense.emanuelepicariello.demo.datafetcher.NyTimesDataFetcher;
 import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
 import graphql.schema.idl.RuntimeWiring;

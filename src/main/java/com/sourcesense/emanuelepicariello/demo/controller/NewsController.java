@@ -39,13 +39,13 @@ public class NewsController {
     @GetMapping(value = "/{source}")
     @ResponseBody
     public List<NewsDto> printSourceNews(@PathVariable String source) throws IOException, InterruptedException, ExecutionException {
-        if (source.equals(NewsType.hackerNews.toString())) {
+        if (source.equals(NewsType.HACKERNEWS.toString())) {
 
 
             return hackerNewsService.allArticles();
         }
 
-        if (source.equals(NewsType.nyTimesNews.toString())) {
+        if (source.equals(NewsType.NYTIMESNEWS.toString())) {
 
             return nyTimesService.allArticles();
 

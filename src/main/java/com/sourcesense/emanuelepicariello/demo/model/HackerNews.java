@@ -11,13 +11,13 @@ public class HackerNews {
 
     private Date time;
 
-
     private String title;
 
-    private String source = "Hacker News";
+    private String source = HACKER_NEWS;
 
     private String url;
 
+    private static final String HACKER_NEWS = "Hacker News"; //
 
     public String getUrl() {
         return url;
@@ -45,17 +45,13 @@ public class HackerNews {
         this.title = title;
     }
 
-    public Date getData() {
-        return time;
-    }
 
-
-    public void setSource(String source) {
-        this.source = "Hacker News";
+    public void setSource() {
+        this.source = HACKER_NEWS;
     }
 
     public String getSource() {
-        return "Hacker News";
+        return this.source;
     }
 
 }

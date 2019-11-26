@@ -1,4 +1,4 @@
-package com.sourcesense.emanuelepicariello.demo.dataFetcher;
+package com.sourcesense.emanuelepicariello.demo.datafetcher;
 
 import com.sourcesense.emanuelepicariello.demo.dto.NewsDto;
 
@@ -9,7 +9,6 @@ import graphql.schema.DataFetchingEnvironment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -24,9 +23,7 @@ public class HackerNewsDataFetcher implements DataFetcher<List<NewsDto>> {
     public List<NewsDto> get(DataFetchingEnvironment dataFetchingEnvironment) {
         try {
             return hackerNewsService.allArticles();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
         return new ArrayList<>();

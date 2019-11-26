@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 @Service
@@ -73,7 +72,7 @@ public class NyTimesService implements NewsServiceInterface {
     /**
      * @return GetNewsResponse
      */
-    public GetNewsResponse getNyTimesResponse()  {
+    public GetNewsResponse getNyTimesResponse() {
         GetNewsResponse response = new GetNewsResponse();
         response.getNews().addAll(getAllArticleOfNyTimes());
         return response;

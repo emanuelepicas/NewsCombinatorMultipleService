@@ -1,10 +1,12 @@
-package com.sourcesense.emanuelepicariello.demo.dataFetcher;
+package com.sourcesense.emanuelepicariello.demo.datafetcher;
 
 
 import com.sourcesense.emanuelepicariello.demo.dto.NewsDto;
 import com.sourcesense.emanuelepicariello.demo.service.NyTimesService;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,15 +18,14 @@ import java.util.List;
 public class NyTimesDataFetcher implements DataFetcher<List<NewsDto>> {
     @Autowired
     private NyTimesService nyTimesService;
+    Logger logger = LoggerFactory.getLogger(NyTimesDataFetcher.class);
 
     @Override
     public List<NewsDto> get(DataFetchingEnvironment dataFetchingEnvironment) {
-        String source = dataFetchingEnvironment.getArgument("source");
-
         try {
             return nyTimesService.allArticles();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.info("IoExceptions");
         }
 
         return new ArrayList<>();
